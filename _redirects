@@ -1,0 +1,11 @@
+/yacht-financing/* /yacht-financing/:splat 200
+/boat-loans/* /boat-loans/:splat 200
+/marine-financing/* /marine-financing/:splat 200
+/luxury-yacht-loans/* /luxury-yacht-loans/:splat 200
+/superyacht-financing/* /superyacht-financing/:splat 200
+/real-estate-financing/* /real-estate-financing/:splat 200
+/investment-property-loans/* /investment-property-loans/:splat 200
+/commercial-real-estate-financing/* /commercial-real-estate-financing/:splat 200
+/about/* /about/:splat 200
+/guides/* /guides/:splat 200
+/* /index.html 200
