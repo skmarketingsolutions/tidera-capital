@@ -1,9 +1,9 @@
 const GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/eXPCtA93huGsb6Bpik6l/webhook-trigger/Xyf5Dt8tphjQeaH6s7io';
 
-// Force any value to a plain string — prevents [object Object] reaching GHL
+// Always return a plain string — never an object
 function str(val) {
   if (val === null || val === undefined) return '';
-  if (typeof val === 'object') return JSON.stringify(val);
+  if (typeof val === 'object') return '';   // drop objects — never stringify as [object Object]
   return String(val).trim();
 }
 
@@ -16,13 +16,14 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    // Explicitly parse body — handles cases where Vercel doesn't auto-parse
+    // Ensure body is parsed — handles both auto-parsed objects and raw strings
     let body = req.body;
     if (typeof body === 'string') {
       try { body = JSON.parse(body); } catch { body = {}; }
     }
     body = body || {};
 
+    // Extract every field as a guaranteed plain string
     const firstName         = str(body.firstName);
     const lastName          = str(body.lastName);
     const email             = str(body.email);
@@ -33,54 +34,39 @@ export default async function handler(req, res) {
     const timeline          = str(body.timeline);
     const additionalDetails = str(body.additionalDetails);
     const source            = str(body.source) || 'tideracapital.com';
+    const fullName          = `${firstName} ${lastName}`.trim();
 
     if (!firstName || !lastName || !email || !phone) {
       return res.status(400).json({ success: false, error: 'Missing required fields' });
     }
 
-    const fullName = `${firstName} ${lastName}`;
-
+    // Flat payload — NO nested objects, every value is a plain string
     const payload = {
-      // All name formats GHL may look for
-      name:          fullName,
-      full_name:     fullName,
-      first_name:    firstName,
-      last_name:     lastName,
-      firstName,
-      lastName,
-      email,
-      phone,
-
-      // Nested contact object for GHL workflow variable mapping
-      contact: {
-        name:       fullName,
-        full_name:  fullName,
-        firstName,
-        lastName,
-        first_name: firstName,
-        last_name:  lastName,
-        email,
-        phone,
-      },
-
-      // Form fields — guaranteed plain strings
+      name:               fullName,
+      full_name:          fullName,
+      first_name:         firstName,
+      last_name:          lastName,
+      firstName:          firstName,
+      lastName:           lastName,
+      email:              email,
+      phone:              phone,
       vessel_type:        vesselType,
-      vesselType,
+      vesselType:         vesselType,
       loan_amount:        loanAmount,
-      loanAmount,
+      loanAmount:         loanAmount,
       credit_score:       creditScore,
-      creditScore,
-      timeline,
+      creditScore:        creditScore,
+      timeline:           timeline,
       message:            additionalDetails,
       notes:              additionalDetails,
       additional_details: additionalDetails,
-      additionalDetails,
-      source,
-      locationId:   'eXPCtA93huGsb6Bpik6l',
-      submittedAt:  new Date().toISOString(),
+      additionalDetails:  additionalDetails,
+      source:             source,
+      locationId:         'eXPCtA93huGsb6Bpik6l',
+      submittedAt:        new Date().toISOString(),
     };
 
-    console.log('Sending to GHL:', JSON.stringify(payload));
+    console.log('GHL payload:', JSON.stringify(payload));
 
     const ghlRes = await fetch(GHL_WEBHOOK, {
       method:  'POST',
