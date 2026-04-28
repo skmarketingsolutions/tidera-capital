@@ -1511,14 +1511,24 @@ if (form) {
       return;
     }
 
+    // Fire proxy (CF function) + direct GHL simultaneously for reliability
+    var GHL_URL = 'https://services.leadconnectorhq.com/hooks/eXPCtA93huGsb6Bpik6l/webhook-trigger/Xyf5Dt8tphjQeaH6s7io';
+    var body = JSON.stringify(payload);
+    var headers = { 'Content-Type': 'application/json' };
+
     try {
-      await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+      // Primary: server-side proxy (avoids CORS)
+      var proxyRes = await fetch('/api/contact', { method:'POST', headers:headers, body:body });
+      if (!proxyRes.ok) {
+        // Proxy failed — fire directly to GHL as fallback
+        console.warn('Proxy returned', proxyRes.status, '— falling back to direct GHL call');
+        await fetch(GHL_URL, { method:'POST', headers:headers, body:body, mode:'no-cors' });
+      }
     } catch(err) {
-      console.warn('Webhook:', err);
+      // Proxy unreachable — fire directly to GHL
+      console.warn('Proxy unreachable:', err, '— firing direct GHL call');
+      try { await fetch(GHL_URL, { method:'POST', headers:headers, body:body, mode:'no-cors' }); }
+      catch(e2) { console.error('Direct GHL call also failed:', e2); }
     }
 
     // GA4 conversion event

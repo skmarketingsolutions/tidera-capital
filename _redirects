@@ -8,4 +8,5 @@
 /commercial-real-estate-financing/* /commercial-real-estate-financing/:splat 200
 /about/* /about/:splat 200
 /guides/* /guides/:splat 200
+/api/* /api/:splat 200
 /* /index.html 200
