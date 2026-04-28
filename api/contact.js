@@ -1,49 +1,58 @@
 const GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/eXPCtA93huGsb6Bpik6l/webhook-trigger/Xyf5Dt8tphjQeaH6s7io';
 
 export default async function handler(req, res) {
-  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method === 'OPTIONS') {
-    return res.status(204).end();
-  }
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  if (req.method === 'OPTIONS') return res.status(204).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
     const {
-      firstName        = '',
-      lastName         = '',
-      email            = '',
-      phone            = '',
-      vesselType       = '',
-      loanAmount       = '',
-      creditScore      = '',
-      timeline         = '',
+      firstName         = '',
+      lastName          = '',
+      email             = '',
+      phone             = '',
+      vesselType        = '',
+      loanAmount        = '',
+      creditScore       = '',
+      timeline          = '',
       additionalDetails = '',
-      source           = 'tideracapital.com',
+      source            = 'tideracapital.com',
     } = req.body || {};
 
     if (!firstName || !lastName || !email || !phone) {
       return res.status(400).json({ success: false, error: 'Missing required fields' });
     }
 
+    const fullName = `${firstName} ${lastName}`.trim();
+
+    // Send every field format GHL may recognize for contact name mapping
     const payload = {
-      // GHL full name (most reliable for contact display)
-      name:         `${firstName} ${lastName}`.trim(),
-      // GHL standard snake_case
-      first_name:   firstName,
-      last_name:    lastName,
+      // ── Top-level formats ──────────────────────────────
+      name:          fullName,   // combined full name
+      full_name:     fullName,   // alternate combined key
+      first_name:    firstName,  // snake_case (GHL standard)
+      last_name:     lastName,   // snake_case (GHL standard)
+      firstName:     firstName,  // camelCase
+      lastName:      lastName,   // camelCase
       email,
       phone,
-      // camelCase fallback
-      firstName,
-      lastName,
-      // extra fields
+
+      // ── Nested contact object (GHL workflow maps as contact.firstName etc) ──
+      contact: {
+        name:       fullName,
+        full_name:  fullName,
+        firstName:  firstName,
+        lastName:   lastName,
+        first_name: firstName,
+        last_name:  lastName,
+        email,
+        phone,
+      },
+
+      // ── Additional form fields ──────────────────────────
       vessel_type:  vesselType,
       loan_amount:  loanAmount,
       credit_score: creditScore,
@@ -54,6 +63,8 @@ export default async function handler(req, res) {
       locationId:   'eXPCtA93huGsb6Bpik6l',
       submittedAt:  new Date().toISOString(),
     };
+
+    console.log('Sending to GHL:', JSON.stringify(payload));
 
     const ghlRes = await fetch(GHL_WEBHOOK, {
       method:  'POST',
