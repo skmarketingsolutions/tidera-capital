@@ -35,20 +35,26 @@ export async function onRequestPost(context) {
       );
     }
 
+    // Send both camelCase and snake_case so GHL maps correctly regardless of config
     const payload = {
+      // GHL standard snake_case field names
+      first_name:  firstName,
+      last_name:   lastName,
+      email:       email,
+      phone:       phone,
+      // also send camelCase as fallback
       firstName,
       lastName,
-      email,
-      phone,
-      vesselType,
-      loanAmount,
-      creditScore,
+      // additional fields
+      vessel_type:  vesselType,
+      loan_amount:  loanAmount,
+      credit_score: creditScore,
       timeline,
-      additionalDetails,
-      message: additionalDetails,
+      message:      additionalDetails,
+      notes:        additionalDetails,
       source,
-      locationId: 'eXPCtA93huGsb6Bpik6l',
-      submittedAt: new Date().toISOString(),
+      locationId:   'eXPCtA93huGsb6Bpik6l',
+      submittedAt:  new Date().toISOString(),
     };
 
     const ghlRes = await fetch(GHL_WEBHOOK, {
