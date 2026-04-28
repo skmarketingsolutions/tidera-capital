@@ -33,6 +33,8 @@ export default async function handler(req, res) {
     }
 
     const payload = {
+      // GHL full name (most reliable for contact display)
+      name:         `${firstName} ${lastName}`.trim(),
       // GHL standard snake_case
       first_name:   firstName,
       last_name:    lastName,
