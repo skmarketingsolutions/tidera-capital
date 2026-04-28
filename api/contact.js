@@ -1,5 +1,12 @@
 const GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/eXPCtA93huGsb6Bpik6l/webhook-trigger/Xyf5Dt8tphjQeaH6s7io';
 
+// Force any value to a plain string — prevents [object Object] reaching GHL
+function str(val) {
+  if (val === null || val === undefined) return '';
+  if (typeof val === 'object') return JSON.stringify(val);
+  return String(val).trim();
+}
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -9,56 +16,65 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const {
-      firstName         = '',
-      lastName          = '',
-      email             = '',
-      phone             = '',
-      vesselType        = '',
-      loanAmount        = '',
-      creditScore       = '',
-      timeline          = '',
-      additionalDetails = '',
-      source            = 'tideracapital.com',
-    } = req.body || {};
+    // Explicitly parse body — handles cases where Vercel doesn't auto-parse
+    let body = req.body;
+    if (typeof body === 'string') {
+      try { body = JSON.parse(body); } catch { body = {}; }
+    }
+    body = body || {};
+
+    const firstName         = str(body.firstName);
+    const lastName          = str(body.lastName);
+    const email             = str(body.email);
+    const phone             = str(body.phone);
+    const vesselType        = str(body.vesselType);
+    const loanAmount        = str(body.loanAmount);
+    const creditScore       = str(body.creditScore);
+    const timeline          = str(body.timeline);
+    const additionalDetails = str(body.additionalDetails);
+    const source            = str(body.source) || 'tideracapital.com';
 
     if (!firstName || !lastName || !email || !phone) {
       return res.status(400).json({ success: false, error: 'Missing required fields' });
     }
 
-    const fullName = `${firstName} ${lastName}`.trim();
+    const fullName = `${firstName} ${lastName}`;
 
-    // Send every field format GHL may recognize for contact name mapping
     const payload = {
-      // ── Top-level formats ──────────────────────────────
-      name:          fullName,   // combined full name
-      full_name:     fullName,   // alternate combined key
-      first_name:    firstName,  // snake_case (GHL standard)
-      last_name:     lastName,   // snake_case (GHL standard)
-      firstName:     firstName,  // camelCase
-      lastName:      lastName,   // camelCase
+      // All name formats GHL may look for
+      name:          fullName,
+      full_name:     fullName,
+      first_name:    firstName,
+      last_name:     lastName,
+      firstName,
+      lastName,
       email,
       phone,
 
-      // ── Nested contact object (GHL workflow maps as contact.firstName etc) ──
+      // Nested contact object for GHL workflow variable mapping
       contact: {
         name:       fullName,
         full_name:  fullName,
-        firstName:  firstName,
-        lastName:   lastName,
+        firstName,
+        lastName,
         first_name: firstName,
         last_name:  lastName,
         email,
         phone,
       },
 
-      // ── Additional form fields ──────────────────────────
-      vessel_type:  vesselType,
-      loan_amount:  loanAmount,
-      credit_score: creditScore,
+      // Form fields — guaranteed plain strings
+      vessel_type:        vesselType,
+      vesselType,
+      loan_amount:        loanAmount,
+      loanAmount,
+      credit_score:       creditScore,
+      creditScore,
       timeline,
-      message:      additionalDetails,
-      notes:        additionalDetails,
+      message:            additionalDetails,
+      notes:              additionalDetails,
+      additional_details: additionalDetails,
+      additionalDetails,
       source,
       locationId:   'eXPCtA93huGsb6Bpik6l',
       submittedAt:  new Date().toISOString(),

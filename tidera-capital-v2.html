@@ -1485,20 +1485,25 @@ if (form) {
     btn.disabled = true;
     btn.textContent = 'Submitting...';
 
+    // Helper: always extract a plain string from any element
+    function fieldVal(id) {
+      var el = document.getElementById(id);
+      if (!el) return '';
+      var v = el.value;
+      return (v === null || v === undefined) ? '' : String(v).trim();
+    }
     var payload = {
-      firstName:    document.getElementById('firstName').value.trim(),
-      lastName:     document.getElementById('lastName').value.trim(),
-      email:        document.getElementById('email').value.trim(),
-      phone:        document.getElementById('phone').value.trim(),
-      vesselType:   document.getElementById('vesselType').value,
-      loanAmount:   document.getElementById('loanAmount').value,
-      creditScore:  document.getElementById('creditScore').value,
-      timeline:     document.getElementById('timeline').value,
-      additionalDetails: document.getElementById('message').value.trim(),
-      source:       'tidera-capital-v2',
-      locationId:   'eXPCtA93huGsb6Bpik6l',
-      pipelineId:   'mU2uJUA6ddD35ksOHOyv',
-      pipelineStageId: '0d7b83a9-9a43-462f-9a74-11e59f0b28ac'
+      firstName:        fieldVal('firstName'),
+      lastName:         fieldVal('lastName'),
+      email:            fieldVal('email'),
+      phone:            fieldVal('phone'),
+      vesselType:       fieldVal('vesselType'),
+      loanAmount:       fieldVal('loanAmount'),
+      creditScore:      fieldVal('creditScore'),
+      timeline:         fieldVal('timeline'),
+      additionalDetails:fieldVal('message'),
+      source:           'tideracapital.com',
+      locationId:       'eXPCtA93huGsb6Bpik6l',
     };
 
     // Validate required fields
