@@ -1,7 +1,8 @@
 {
   "cleanUrls": false,
-  "trailingSlash": true,
+  "trailingSlash": false,
   "routes": [
+    { "src": "/api/contact", "dest": "/api/contact.js" },
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
