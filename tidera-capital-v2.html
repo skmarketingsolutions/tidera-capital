@@ -46,7 +46,7 @@
   --border-gold:rgba(201,168,76,.22);
   --ff-d:'Cormorant Garamond',Georgia,serif;
   --ff-b:'Montserrat',system-ui,sans-serif;
-  --nav-h:160px;
+  --nav-h:200px;
   --max:1180px;
   --ease:cubic-bezier(.4,0,.2,1);
   --radius:3px;
@@ -105,7 +105,7 @@ section{padding:96px 0}
 #nav.scrolled{background:rgba(7,9,26,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom-color:var(--border)}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:var(--nav-h);width:92%;max-width:var(--max);margin:0 auto;gap:2rem}
 .nav-logo{display:flex;align-items:center;cursor:pointer;text-decoration:none}
-.nav-logo img{height:144px;width:auto;display:block;filter:drop-shadow(0 0 10px rgba(201,168,76,.22));transition:filter .3s}
+.nav-logo img{height:180px;width:auto;display:block;filter:drop-shadow(0 0 10px rgba(201,168,76,.22));transition:filter .3s}
 .nav-logo:hover img{filter:drop-shadow(0 0 14px rgba(201,168,76,.4))}
 .nav-logo-t{font-family:var(--ff-d);font-size:1.25rem;font-weight:500;letter-spacing:.18em;color:var(--white);text-transform:uppercase;line-height:1}
 .nav-logo-c{font-size:.48rem;font-weight:500;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;line-height:1}
@@ -403,8 +403,8 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:4rem 0 2r
   .service-wide-inner{grid-template-columns:1fr}
 }
 @media(max-width:768px){
-  :root{--nav-h:130px}
-  .nav-logo img{height:114px!important}
+  :root{--nav-h:170px}
+  .nav-logo img{height:154px!important}
   .nav-links,.nav-cta{display:none}
   .hamburger{display:flex}
   section{padding:72px 0}
@@ -450,8 +450,8 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:4rem 0 2r
   .cta-banner-inner{padding:5rem 0}
 }
 @media(max-width:480px){
-  :root{--nav-h:120px}
-  .nav-logo img{height:104px!important}
+  :root{--nav-h:158px}
+  .nav-logo img{height:140px!important}
   .hero-title{font-size:clamp(2.4rem,10vw,3.5rem)!important}
   .hero-sub{font-size:.98rem}
   .hero-ctas{flex-direction:column;align-items:flex-start}
