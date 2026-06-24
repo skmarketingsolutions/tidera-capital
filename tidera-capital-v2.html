@@ -391,6 +391,37 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:4rem 0 2r
 .footer-cr{font-size:.65rem;color:var(--text-dim);white-space:nowrap}
 
 /* ─────────────────────────────────────────────────────
+   LOAN CALCULATOR
+───────────────────────────────────────────────────── */
+.calc-section{background:var(--bg)}
+.calc-card{background:var(--card);border:1px solid var(--border-gold);border-radius:var(--radius);margin-top:3rem;overflow:hidden}
+.calc-grid{display:grid;grid-template-columns:1fr 340px}
+.calc-inputs{padding:2.6rem 2.8rem;display:flex;flex-direction:column;gap:1.8rem}
+.calc-field{display:flex;flex-direction:column;gap:.5rem}
+.calc-label{font-size:.58rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text)}
+.calc-input-row{display:flex;align-items:center;gap:.5rem}
+.calc-prefix,.calc-suffix{font-family:var(--ff-d);font-size:1.1rem;color:var(--gold);font-weight:400}
+.calc-input{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:2px;padding:.7rem .9rem;color:var(--white);font-size:1rem;font-family:var(--ff-d);outline:none;width:100%;transition:border-color .2s}
+.calc-input:focus{border-color:rgba(201,168,76,.5)}
+.calc-select{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:2px;padding:.7rem .9rem;color:var(--white);font-size:.9rem;font-family:var(--ff-b);outline:none;width:100%;-webkit-appearance:none;cursor:pointer;transition:border-color .2s}
+.calc-select:focus{border-color:rgba(201,168,76,.5)}
+.calc-select option{background:var(--bg3);color:var(--white)}
+.calc-down-amt{font-family:var(--ff-d);font-size:.95rem;color:var(--text);margin-left:auto;white-space:nowrap}
+.calc-range{-webkit-appearance:none;width:100%;height:3px;background:var(--border);border-radius:2px;outline:none;margin-top:.3rem}
+.calc-range::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;background:var(--gold);border-radius:50%;cursor:pointer;box-shadow:0 0 8px rgba(201,168,76,.4)}
+.calc-range::-moz-range-thumb{width:16px;height:16px;background:var(--gold);border-radius:50%;cursor:pointer;border:none}
+.calc-range-labels{display:flex;justify-content:space-between;font-size:.58rem;color:var(--text-dim);margin-top:.2rem}
+.calc-row-2col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.calc-result{background:linear-gradient(160deg,var(--bg3),var(--bg2));border-left:1px solid var(--border-gold);display:flex;align-items:center;justify-content:center}
+.calc-result-inner{padding:2.6rem 2.4rem;width:100%}
+.calc-result-label{font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text);margin-bottom:.6rem;text-align:center}
+.calc-result-num{font-family:var(--ff-d);font-size:clamp(2.4rem,5vw,3.2rem);font-weight:400;color:var(--gold);text-align:center;line-height:1;margin-bottom:1.8rem}
+.calc-result-details{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--border);margin-bottom:.4rem}
+.calc-detail-row{display:flex;justify-content:space-between;padding:.7rem 0;border-bottom:1px solid var(--border);font-size:.78rem}
+.calc-detail-row span:first-child{color:var(--text)}
+.calc-detail-row span:last-child{color:var(--white);font-family:var(--ff-d);font-size:.88rem}
+
+/* ─────────────────────────────────────────────────────
    RESPONSIVE
 ───────────────────────────────────────────────────── */
 @media(max-width:1024px){
@@ -448,6 +479,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:4rem 0 2r
   .btn-lg{padding:1rem 2rem;font-size:.8rem}
   section{padding:72px 0}
   .cta-banner-inner{padding:5rem 0}
+  .calc-grid{grid-template-columns:1fr}
+  .calc-result{border-left:none;border-top:1px solid var(--border-gold)}
+  .calc-inputs{padding:2rem 1.6rem}
+  .calc-result-inner{padding:2rem 1.6rem}
+  .calc-row-2col{grid-template-columns:1fr}
 }
 @media(max-width:480px){
   :root{--nav-h:72px}
@@ -771,6 +807,79 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:4rem 0 2r
       </div>
     </div>
   </div>
+
+  <!-- LOAN CALCULATOR -->
+  <section class="calc-section" id="calculator">
+    <div class="wrap">
+      <div class="center anim">
+        <span class="gold-rule center"></span>
+        <p class="label section-label">Estimate Your Payment</p>
+        <h2 class="display d2 section-head">Marine Financing<br>Calculator</h2>
+        <p class="body-sm section-sub center">Current rates starting from <strong style="color:var(--gold)">5.99% APR</strong> for qualified borrowers. Rates updated June 2026.</p>
+      </div>
+      <div class="calc-card anim d1">
+        <div class="calc-grid">
+          <div class="calc-inputs">
+            <div class="calc-field">
+              <label class="calc-label">Vessel Price</label>
+              <div class="calc-input-row">
+                <span class="calc-prefix">$</span>
+                <input type="text" id="calcPrice" class="calc-input" value="2,000,000">
+              </div>
+              <input type="range" id="calcPriceRange" class="calc-range" min="500000" max="50000000" step="50000" value="2000000">
+              <div class="calc-range-labels"><span>$500K</span><span>$50M</span></div>
+            </div>
+            <div class="calc-field">
+              <label class="calc-label">Down Payment</label>
+              <div class="calc-input-row">
+                <input type="text" id="calcDown" class="calc-input" value="20" style="max-width:60px">
+                <span class="calc-suffix">%</span>
+                <span class="calc-down-amt" id="calcDownAmt">$400,000</span>
+              </div>
+              <input type="range" id="calcDownRange" class="calc-range" min="10" max="50" step="1" value="20">
+              <div class="calc-range-labels"><span>10%</span><span>50%</span></div>
+            </div>
+            <div class="calc-row-2col">
+              <div class="calc-field">
+                <label class="calc-label">Interest Rate (APR)</label>
+                <div class="calc-input-row">
+                  <input type="text" id="calcRate" class="calc-input" value="6.99" style="max-width:70px">
+                  <span class="calc-suffix">%</span>
+                </div>
+                <input type="range" id="calcRateRange" class="calc-range" min="499" max="1200" step="1" value="699">
+                <div class="calc-range-labels"><span>4.99%</span><span>12%</span></div>
+              </div>
+              <div class="calc-field">
+                <label class="calc-label">Loan Term</label>
+                <select id="calcTerm" class="calc-select">
+                  <option value="120">10 Years</option>
+                  <option value="180" selected>15 Years</option>
+                  <option value="240">20 Years</option>
+                  <option value="300">25 Years</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="calc-result">
+            <div class="calc-result-inner">
+              <p class="calc-result-label">Estimated Monthly Payment</p>
+              <p class="calc-result-num" id="calcPayment">$14,386</p>
+              <div class="calc-result-details">
+                <div class="calc-detail-row"><span>Loan Amount</span><span id="calcLoanAmt">$1,600,000</span></div>
+                <div class="calc-detail-row"><span>Total Interest</span><span id="calcTotalInt">$989,480</span></div>
+                <div class="calc-detail-row"><span>Total Cost</span><span id="calcTotalCost">$2,589,480</span></div>
+              </div>
+              <span class="btn btn-gold" onclick="navigate('apply')" style="width:100%;justify-content:center;margin-top:1.6rem">
+                Begin Your Application
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p style="font-size:.6rem;color:var(--text-dim);text-align:center;margin-top:.8rem;line-height:1.5">For illustrative purposes only. Actual rates and terms depend on credit profile and lender approval.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- CTA BANNER -->
   <div class="cta-banner">
@@ -1590,6 +1699,77 @@ if (form) {
   });
 }
 
+})();
+
+// ── Loan Calculator ──────────────────────────────────
+(function(){
+  var price=document.getElementById('calcPrice'),
+      priceR=document.getElementById('calcPriceRange'),
+      down=document.getElementById('calcDown'),
+      downR=document.getElementById('calcDownRange'),
+      downAmt=document.getElementById('calcDownAmt'),
+      rate=document.getElementById('calcRate'),
+      rateR=document.getElementById('calcRateRange'),
+      term=document.getElementById('calcTerm'),
+      pay=document.getElementById('calcPayment'),
+      loanEl=document.getElementById('calcLoanAmt'),
+      intEl=document.getElementById('calcTotalInt'),
+      costEl=document.getElementById('calcTotalCost');
+
+  function fmt(n){return n.toLocaleString('en-US',{maximumFractionDigits:0})}
+
+  function calc(){
+    var p=parseFloat(price.value.replace(/[^0-9.]/g,''))||0;
+    var d=parseFloat(down.value)||20;
+    var r=parseFloat(rate.value)||6.99;
+    var n=parseInt(term.value)||180;
+    var dp=p*(d/100);
+    var loan=p-dp;
+    var mr=r/100/12;
+    var monthly=0;
+    if(mr>0&&n>0&&loan>0){
+      monthly=loan*(mr*Math.pow(1+mr,n))/(Math.pow(1+mr,n)-1);
+    }
+    var totalPaid=monthly*n;
+    var totalInt=totalPaid-loan;
+    pay.textContent='$'+fmt(Math.round(monthly));
+    loanEl.textContent='$'+fmt(Math.round(loan));
+    intEl.textContent='$'+fmt(Math.round(Math.max(0,totalInt)));
+    costEl.textContent='$'+fmt(Math.round(Math.max(0,totalPaid)));
+    downAmt.textContent='$'+fmt(Math.round(dp));
+  }
+
+  function syncPrice(fromRange){
+    if(fromRange){
+      var v=parseInt(priceR.value);
+      price.value=fmt(v);
+    }else{
+      var v=parseFloat(price.value.replace(/[^0-9]/g,''))||500000;
+      priceR.value=v;
+    }
+    calc();
+  }
+  function syncDown(fromRange){
+    if(fromRange){down.value=downR.value;}
+    else{downR.value=parseInt(down.value)||20;}
+    calc();
+  }
+  function syncRate(fromRange){
+    if(fromRange){rate.value=(parseInt(rateR.value)/100).toFixed(2);}
+    else{rateR.value=Math.round(parseFloat(rate.value)*100);}
+    calc();
+  }
+
+  priceR.addEventListener('input',function(){syncPrice(true)});
+  price.addEventListener('change',function(){syncPrice(false)});
+  price.addEventListener('blur',function(){price.value=fmt(parseFloat(price.value.replace(/[^0-9]/g,''))||500000)});
+  downR.addEventListener('input',function(){syncDown(true)});
+  down.addEventListener('change',function(){syncDown(false)});
+  rateR.addEventListener('input',function(){syncRate(true)});
+  rate.addEventListener('change',function(){syncRate(false)});
+  term.addEventListener('change',calc);
+
+  calc();
 })();
 </script>
 </body>
