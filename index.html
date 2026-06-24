@@ -505,7 +505,44 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:4rem 0 2r
   .pos-side{padding:2rem 1.4rem!important}
   .about-quote{font-size:clamp(1.3rem,4vw,1.8rem);padding-left:1.4rem}
   .disclaimer-block{flex-direction:column;gap:1rem;padding:2rem}
+  .fleet-gallery{grid-template-columns:1fr 1fr!important}
+  .fleet-hero-img{height:280px!important}
+  .fleet-specs{grid-template-columns:1fr 1fr!important}
+  .fleet-detail-grid{grid-template-columns:1fr!important}
 }
+
+/* ─────────────────────────────────────────────────────
+   FLEET PAGE
+───────────────────────────────────────────────────── */
+.fleet-hero{padding:140px 0 60px;position:relative}
+.fleet-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(201,168,76,.04) 0%,transparent 70%);pointer-events:none}
+.fleet-listing{padding-bottom:96px}
+.fleet-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-top:3rem}
+.fleet-hero-img{width:100%;height:420px;object-fit:cover;display:block}
+.fleet-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.fleet-gallery img{width:100%;height:140px;object-fit:cover;display:block;transition:opacity .3s;cursor:pointer}
+.fleet-gallery img:hover{opacity:.8}
+.fleet-card-body{padding:2.8rem}
+.fleet-card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;flex-wrap:wrap;margin-bottom:2.4rem}
+.fleet-card-title{font-family:var(--ff-d);font-size:clamp(1.8rem,4vw,2.6rem);color:var(--white);font-weight:400;line-height:1.2}
+.fleet-card-subtitle{font-size:.85rem;color:var(--text);margin-top:.4rem}
+.fleet-card-price{text-align:right}
+.fleet-card-price-num{font-family:var(--ff-d);font-size:clamp(1.6rem,3.5vw,2.2rem);color:var(--gold);font-weight:400;line-height:1}
+.fleet-card-price-label{font-size:.58rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--text);margin-top:.3rem}
+.fleet-card-price-est{font-size:.72rem;color:var(--text-dim);margin-top:.5rem}
+.fleet-specs{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:2.4rem}
+.fleet-spec{background:var(--bg);padding:1.4rem 1.2rem;text-align:center}
+.fleet-spec-val{font-family:var(--ff-d);font-size:1.3rem;color:var(--white);font-weight:400;margin-bottom:.3rem}
+.fleet-spec-label{font-size:.55rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text)}
+.fleet-description{font-size:.9rem;line-height:1.9;color:var(--text2);max-width:800px;margin-bottom:2.4rem}
+.fleet-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.4rem;margin-bottom:2.4rem}
+.fleet-detail-section{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.8rem}
+.fleet-detail-title{font-family:var(--ff-d);font-size:1.1rem;color:var(--white);font-weight:500;margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:1px solid var(--border)}
+.fleet-detail-list{display:flex;flex-direction:column;gap:.45rem}
+.fleet-detail-item{display:flex;align-items:flex-start;gap:.6rem;font-size:.8rem;color:var(--text2);line-height:1.5}
+.fleet-detail-item::before{content:'';width:3px;height:3px;background:var(--gold);border-radius:50%;flex-shrink:0;margin-top:.45rem}
+.fleet-cta{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;padding-top:1.5rem;border-top:1px solid var(--border)}
+.fleet-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.45rem .9rem;border:1px solid var(--gold-line);border-radius:1px;font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);background:var(--gold-lo)}
 </style>
 </head>
 <body>
@@ -523,6 +560,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:4rem 0 2r
       <li><span class="nav-link" data-page="about" onclick="navigate('about')">About</span></li>
       <li><span class="nav-link" data-page="how-it-works" onclick="navigate('how-it-works')">How It Works</span></li>
       <li><span class="nav-link" data-page="services" onclick="navigate('services')">Services</span></li>
+      <li><span class="nav-link" data-page="fleet" onclick="navigate('fleet')">Fleet</span></li>
     </ul>
     <span class="nav-cta" onclick="navigate('apply')">Begin Application</span>
     <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -537,6 +575,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:4rem 0 2r
   <span class="mobile-nav-link" onclick="navigate('about');closeMobile()">About</span>
   <span class="mobile-nav-link" onclick="navigate('how-it-works');closeMobile()">How It Works</span>
   <span class="mobile-nav-link" onclick="navigate('services');closeMobile()">Services</span>
+  <span class="mobile-nav-link" onclick="navigate('fleet');closeMobile()">Fleet</span>
   <span class="mobile-nav-link" onclick="navigate('apply');closeMobile()">Apply</span>
   <div class="mobile-nav-cta">
     <span class="btn btn-gold btn-lg" onclick="navigate('apply');closeMobile()">Begin Application</span>
@@ -1321,6 +1360,163 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:4rem 0 2r
 
 
 <!-- ═══════════════════════════════════════════════════
+     PAGE: FLEET
+══════════════════════════════════════════════════════ -->
+<div id="page-fleet" class="page">
+
+  <div class="fleet-hero">
+    <div class="wrap">
+      <div class="anim">
+        <span class="gold-rule"></span>
+        <p class="label section-label">Available for Financing</p>
+        <h2 class="display d1 section-head">Current Fleet</h2>
+        <p class="body-lg section-sub">Select vessels currently available through our lender network. Each listing has been pre-qualified for financing — apply directly from the vessel page.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="fleet-listing">
+    <div class="wrap">
+
+      <!-- VESSEL: Azimut Fly 50 -->
+      <div class="fleet-card anim">
+        <img src="assets/fleet/azimut-fly50-1.jpeg" alt="2019 Azimut Fly 50 — La Paloma" class="fleet-hero-img">
+        <div class="fleet-gallery">
+          <img src="assets/fleet/azimut-fly50-6.jpeg" alt="Salon interior">
+          <img src="assets/fleet/azimut-fly50-10.jpeg" alt="Galley">
+          <img src="assets/fleet/azimut-fly50-14.jpeg" alt="Master stateroom">
+          <img src="assets/fleet/azimut-fly50-20.jpeg" alt="Flybridge">
+          <img src="assets/fleet/azimut-fly50-30.jpeg" alt="Cockpit">
+          <img src="assets/fleet/azimut-fly50-35.jpeg" alt="Helm station">
+          <img src="assets/fleet/azimut-fly50-40.jpeg" alt="Aft deck">
+          <img src="assets/fleet/azimut-fly50-45.jpeg" alt="Exterior detail">
+        </div>
+
+        <div class="fleet-card-body">
+          <div class="fleet-card-header">
+            <div>
+              <h3 class="fleet-card-title">2019 Azimut Fly 50</h3>
+              <p class="fleet-card-subtitle">"La Paloma" — Miami, Florida</p>
+            </div>
+            <div class="fleet-card-price">
+              <div class="fleet-card-price-num">$980,000</div>
+              <div class="fleet-card-price-label">Asking Price</div>
+              <div class="fleet-card-price-est">Est. $7,850/mo with 20% down</div>
+            </div>
+          </div>
+
+          <!-- Key Specs -->
+          <div class="fleet-specs">
+            <div class="fleet-spec">
+              <div class="fleet-spec-val">50 ft</div>
+              <div class="fleet-spec-label">Length</div>
+            </div>
+            <div class="fleet-spec">
+              <div class="fleet-spec-val">2019</div>
+              <div class="fleet-spec-label">Year</div>
+            </div>
+            <div class="fleet-spec">
+              <div class="fleet-spec-val">Flybridge</div>
+              <div class="fleet-spec-label">Class</div>
+            </div>
+            <div class="fleet-spec">
+              <div class="fleet-spec-val">Fiberglass</div>
+              <div class="fleet-spec-label">Hull</div>
+            </div>
+            <div class="fleet-spec">
+              <div class="fleet-spec-val">15' 3"</div>
+              <div class="fleet-spec-label">Beam</div>
+            </div>
+            <div class="fleet-spec">
+              <div class="fleet-spec-val">4' 11"</div>
+              <div class="fleet-spec-label">Max Draft</div>
+            </div>
+            <div class="fleet-spec">
+              <div class="fleet-spec-val">Diesel</div>
+              <div class="fleet-spec-label">Fuel</div>
+            </div>
+            <div class="fleet-spec">
+              <div class="fleet-spec-val">Twin Volvo</div>
+              <div class="fleet-spec-label">Engines</div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <p class="fleet-description">
+            Introducing the stunning 2019 Azimut Fly 50, a remarkable flybridge yacht that embodies elegance and performance. With an overall length of 50 feet, this vessel is crafted from durable fiberglass, ensuring both strength and beauty on the water. Powered by twin Volvo Penta inboard diesel engines, she promises a reliable and exhilarating cruising experience. The Fly 50 is designed for comfort and style, featuring a spacious layout that enhances your time at sea. The flybridge offers an expansive second entertaining area with panoramic views.
+          </p>
+
+          <!-- Detailed Sections -->
+          <div class="fleet-detail-grid">
+            <div class="fleet-detail-section">
+              <div class="fleet-detail-title">Salon &amp; Galley</div>
+              <div class="fleet-detail-list">
+                <div class="fleet-detail-item">Wood flooring throughout salon</div>
+                <div class="fleet-detail-item">Port &amp; starboard side salon sofas</div>
+                <div class="fleet-detail-item">Hi-Low table, starboard side</div>
+                <div class="fleet-detail-item">Bose sound system with Sony 4K 3D Blu-Ray</div>
+                <div class="fleet-detail-item">Large countertop galley with Miele appliances</div>
+                <div class="fleet-detail-item">Miele induction cooktop &amp; microwave/oven</div>
+                <div class="fleet-detail-item">Vitrifrigo under-counter refrigerator</div>
+              </div>
+            </div>
+            <div class="fleet-detail-section">
+              <div class="fleet-detail-title">Staterooms</div>
+              <div class="fleet-detail-list">
+                <div class="fleet-detail-item">Master stateroom with private head &amp; shower</div>
+                <div class="fleet-detail-item">Samsung TV, reading lights, large windows</div>
+                <div class="fleet-detail-item">Guest stateroom with twin beds</div>
+                <div class="fleet-detail-item">Private head &amp; shower, hanging closets</div>
+                <div class="fleet-detail-item">Dometic AC in all staterooms</div>
+                <div class="fleet-detail-item">Marine carbon monoxide alarm system</div>
+                <div class="fleet-detail-item">Crew quarters with aft deck sleeping</div>
+              </div>
+            </div>
+            <div class="fleet-detail-section">
+              <div class="fleet-detail-title">Electronics &amp; Navigation</div>
+              <div class="fleet-detail-list">
+                <div class="fleet-detail-item">Twin Raymarine displays</div>
+                <div class="fleet-detail-item">Raymarine autopilot &amp; radar</div>
+                <div class="fleet-detail-item">Volvo Penta engine displays</div>
+                <div class="fleet-detail-item">JoyStick docking control</div>
+                <div class="fleet-detail-item">Raymarine VHF radio</div>
+                <div class="fleet-detail-item">SeaKeeper stabilizer display</div>
+                <div class="fleet-detail-item">Sea-Fire shutdown system</div>
+              </div>
+            </div>
+            <div class="fleet-detail-section">
+              <div class="fleet-detail-title">Deck &amp; Exterior</div>
+              <div class="fleet-detail-list">
+                <div class="fleet-detail-item">Hydraulic swim platform</div>
+                <div class="fleet-detail-item">Teak deck cockpit</div>
+                <div class="fleet-detail-item">U-shape aft deck seating with table</div>
+                <div class="fleet-detail-item">Freshwater washdown</div>
+                <div class="fleet-detail-item">Glendinning shore power cable</div>
+                <div class="fleet-detail-item">Searchlight control</div>
+                <div class="fleet-detail-item">Generator &amp; water maker</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="fleet-cta">
+            <span class="btn btn-gold" onclick="navigate('apply')">
+              Apply for Financing
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="fleet-badge">Pre-Qualified for Financing</span>
+            <span class="fleet-badge">Miami, FL</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /page-fleet -->
+
+
+<!-- ═══════════════════════════════════════════════════
      PAGE: APPLY
 ══════════════════════════════════════════════════════ -->
 <div id="page-apply" class="page">
@@ -1527,6 +1723,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:4rem 0 2r
           <span class="footer-link" onclick="navigate('about')">About</span>
           <span class="footer-link" onclick="navigate('how-it-works')">How It Works</span>
           <span class="footer-link" onclick="navigate('services')">Services</span>
+          <span class="footer-link" onclick="navigate('fleet')">Fleet</span>
           <span class="footer-link" onclick="navigate('apply')">Apply</span>
         </div>
       </div>
